@@ -1,0 +1,11 @@
+library("sqldf")
+mysql <- "SELECT * from file WHERE Date = '1/2/2007' OR Date = '2/2/2007'"
+data <- read.csv.sql("C:/Users/e552054/Documents/household_power_consumption.txt", sql = mysql, sep = ";")
+date <- paste(data$Date, data$Time)
+date2 <- strptime(date, format = "%d/%m/%Y %H:%M:%S")
+plot(date2, data$Sub_metering_1, type = "l", xlab = "", ylab = "Energy sub metering")
+lines(date2, data$Sub_metering_2, col = "red")
+lines(date2, data$Sub_metering_3, col = "blue")
+legend("topright", legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = 1, col = c("black", "red", "blue"), cex = .75)
+dev.copy(png, file = "plot3.png")
+dev.off()
